@@ -2,7 +2,11 @@
 import java.util.Scanner;
 
 /**
- * foobar
+ * This creates a game of Tic-Tac-Toe that starts of by giving the user
+ * the option to play against an AI. If they play against an AI they
+ * will be assigned the letter "O" and then the game ends when either the
+ * AI or the player gets 3 letters in a row or the board is full
+ *
  * @author Patrick Menninger
  */
 public class GamePlay {
