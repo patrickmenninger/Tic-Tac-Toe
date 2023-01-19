@@ -3,11 +3,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+/**
+ * foobar
+ * @author Patrick Menninger
+ */
 public class GamePlay {
+
+    // Comment A
     private static int playerTurn = 1;
+
+    // Comment B
     private static String EMPTY = " ";
 
-    private static String[][] moves = new String[][]{{EMPTY, EMPTY, EMPTY}, {EMPTY, EMPTY, EMPTY}, {EMPTY, EMPTY, EMPTY}};
+    private static final String[][] moves = new String[][]{{EMPTY, EMPTY, EMPTY}, {EMPTY, EMPTY, EMPTY}, {EMPTY, EMPTY, EMPTY}};
     private static String playerLetter;
     private static boolean continuePlay = true;
     private static int amountMoves = 0;
@@ -20,14 +28,13 @@ public class GamePlay {
     private static int bestMoveI = 0;
     private static int bestMoveJ = 0;
     private static int amountMovesHolder = 0;
-
-    private static Map<String, Integer> scoreLookup  = new HashMap<>() {{
-        put("X", 1);
-        put("O", -1);
-        put("tie", 0);
-    }};
+    
 
     //Prints the board so that you can see your moves
+
+    /**
+     *
+     */
     public static void printBoard() {
         clearScreen();
 
@@ -135,29 +142,16 @@ public class GamePlay {
             AI = true;
 
             System.out.println("You will start as O");
-            playerLetter = input2.nextLine();
+            playerLetter = "O";
 
-            playerLetter.equals("O")
-            AIletter = "X"
-            if (playerLetter.equals("X")) {
-                AIletter = "O";
+            AIletter = "X";
 
-                System.out.println("Player " + playerTurn + ", type the column number of your move");
-                x = input2.nextInt() - 1;
-                System.out.println("Player " + playerTurn + ", type the row number of your move");
-                y = input2.nextInt() - 1;
-
-                updateBoard(x, y, playerLetter);
-                amountMoves++;
-            } else if (playerLetter.equals("O")) {
-                AIletter = "X";
-            }
         } else {
             AI = false;
-            ;
+            printBoard();
         }
 
-        printBoard();
+
         checkForWinOverall();
     }
 
@@ -271,6 +265,12 @@ public class GamePlay {
         updateBoard(bestMoveI, bestMoveJ, AIletter);
     }
 
+    /**
+     *
+     * @param depth
+     * @param isMaximizing
+     * @return t
+     */
     public static double minimax(int depth, boolean isMaximizing) {
         Double result = checkForWinMinimax(depth);
 
@@ -281,6 +281,7 @@ public class GamePlay {
         if (isMaximizing) {
             double bestScore = Integer.MIN_VALUE;
 
+            // Comment
             for (int col = 0; col < 3; col++) {
                 for (int row = 0; row < 3; row++) {
                     if (moves[col][row].equals(EMPTY)) {
@@ -295,6 +296,7 @@ public class GamePlay {
         } else {
             double bestScore = Integer.MAX_VALUE;
 
+            // Comment
             for (int col = 0; col < 3; col++) {
                 for (int row = 0; row < 3; row++) {
                     if (moves[col][row].equals(EMPTY)) {
