@@ -1,6 +1,4 @@
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+
 import java.util.Scanner;
 
 /**
@@ -9,31 +7,43 @@ import java.util.Scanner;
  */
 public class GamePlay {
 
-    // Comment A
+    // Used when the player doesn't want to play against AI to determine whose move it is
     private static int playerTurn = 1;
 
-    // Comment B
-    private static String EMPTY = " ";
+    // Created to easier understand the blank spaces on the board
+    private static final String EMPTY = " ";
 
+    // Creates the array that stores the EMPTY value or the letter in each square
     private static final String[][] moves = new String[][]{{EMPTY, EMPTY, EMPTY}, {EMPTY, EMPTY, EMPTY}, {EMPTY, EMPTY, EMPTY}};
+
+    // Initializes the String variable to hold the player's letter
     private static String playerLetter;
+
+    // Created to determine if no player has won yet and to continue playing
     private static boolean continuePlay = true;
+
+    // Created to stop the game once this reaches 9 moves because the board is full
     private static int amountMoves = 0;
+
+    // Used to determine if the player is playing against an AI
     private static boolean AI = true;
-    private static String AIchoice;
+
+    // Created to determine if it's the AI's move
     private static boolean AImove;
-    private static int x = 10;
-    private static int y = 10;
+
+    // Created to store the letter the AI is using
     private static String AIletter;
-    private static int bestMoveI = 0;
-    private static int bestMoveJ = 0;
-    private static int amountMovesHolder = 0;
+
+    // Stores the best move for the column for the computer
+    private static int bestMoveX = 0;
+
+    //stores the best move for the row for the computer
+    private static int bestMoveY = 0;
     
 
-    //Prints the board so that you can see your moves
 
     /**
-     *
+     * Prints the board so that you can see your moves.
      */
     public static void printBoard() {
         clearScreen();
@@ -50,10 +60,17 @@ public class GamePlay {
         System.out.println("|_____|_____|_____|\n");
     }
 
-    //Takes input from playerMove to change the value on the board at the specified position
+
+    /**
+     * Takes input from playerMove to change the value on the board at the specified position.
+     *
+     * @param column
+     * @param rows
+     * @param letter
+     */
     public static void updateBoard(int column, int rows, String letter) {
 
-        //If an the row and column are not on the array it skips this code and goes to catch
+        //If the row and column are not on the array it skips this code and goes to catch
         try {
 
             //Checks to see if it is an open square
@@ -68,7 +85,7 @@ public class GamePlay {
                 playerMove();
             }
 
-            /*Clears the screen so more than one board doesn't show, then prints the new board with the new values*/
+            //Clears the screen so more than one board doesn't show, then prints the new board with the new values
             printBoard();
 
 
@@ -89,13 +106,19 @@ public class GamePlay {
         }
     }
 
-    //Clears the screen so it don't get crowded
+
+    /**
+     * Clears the screen so it doesn't get crowded.
+     */
     public static void clearScreen() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
 
-    //Takes user input to set the row and column and place either a "X" or an "O"
+
+    /**
+     * Takes user input to set the row and column and place either a "X" or an "O".
+     */
     public static void playerMove() {
         AImove = false;
 
@@ -111,15 +134,23 @@ public class GamePlay {
 
 
         System.out.println("Player " + playerTurn + ", type the column number of your move");
-        x = input1.nextInt() - 1;
+
+        // Takes in the users input of the column they want to put their letter
+        int x = input1.nextInt() - 1;
         System.out.println("Player " + playerTurn + ", type the row number of your move");
-        y = input1.nextInt() - 1;
+
+        // Takes in the users input of the row they want to put their letter
+        int y = input1.nextInt() - 1;
 
 
         updateBoard(x, y, playerLetter);
     }
 
-    //Switches from "X" to "O" and vice versa after a move
+
+
+    /**
+     * Switches from "X" to "O" and vice versa after a move.
+     */
     public static void updatePlayer() {
         if (!(AI)) {
             if (playerTurn == 1) {
@@ -130,13 +161,19 @@ public class GamePlay {
         }
     }
 
+    /**
+     * Starts the gameplay by asking the user if they want to
+     * play against an AI.
+     */
     public static void play() {
         printBoard();
 
         Scanner input2 = new Scanner(System.in);
 
         System.out.println("Do you want to play against AI? Enter yes or no.");
-        AIchoice = input2.nextLine();
+
+        // Created and initialized to take in the players input if they want to play against AI
+        String AIchoice = input2.nextLine();
 
         if (AIchoice.equals("yes") || (AIchoice.equals("Yes"))) {
             AI = true;
@@ -155,6 +192,9 @@ public class GamePlay {
         checkForWinOverall();
     }
 
+    /**
+     * Checks if either the AI or the player has won the game.
+     */
     public static void checkForWinOverall() {
         while (continuePlay) {
             if (AI) {
@@ -173,6 +213,10 @@ public class GamePlay {
         }
     }
 
+    /**
+     * Determines the way in which the AI or player won.
+     * This displays the column or row they won on.
+     */
     public static void checkForWin() {
 
 
@@ -239,6 +283,10 @@ public class GamePlay {
 
     }
 
+    /**
+     * Determines the best move for the AI by calling the minimax function.
+     * It then updates the board based on the determined best move.
+     */
     public static void moveAI() {
 
         AImove = true;
@@ -256,16 +304,21 @@ public class GamePlay {
 
                     if (score > bestScore) {
                         bestScore = score;
-                        bestMoveI = i;
-                        bestMoveJ = j;
+                        bestMoveX = i;
+                        bestMoveY = j;
                     }
                 }
             }
         }
-        updateBoard(bestMoveI, bestMoveJ, AIletter);
+        updateBoard(bestMoveX, bestMoveY, AIletter);
     }
 
     /**
+     * Finds the best move for the AI by looking at all the possibilities and outcomes.
+     * It then assigns point values to each outcome.
+     * The function assigns a value of 1 divided by the
+     * number of times it had to call the recursive function.
+     * The path with the bigger number from that formula is chosen.
      *
      * @param depth
      * @param isMaximizing
@@ -274,14 +327,21 @@ public class GamePlay {
     public static double minimax(int depth, boolean isMaximizing) {
         Double result = checkForWinMinimax(depth);
 
+        // Ends the recursive function
         if (result != null) {
             return result;
         }
 
+        /*
+         Starts of by placing an AI move in the first row and column.
+         It then pretends to place the player move in the first column second row.
+         It repeats this process until either someone has won or there is a tie.
+         This function prioritizes an AI win by assigning a bigger number to each path the AI wins.
+         */
         if (isMaximizing) {
             double bestScore = Integer.MIN_VALUE;
 
-            // Comment
+
             for (int col = 0; col < 3; col++) {
                 for (int row = 0; row < 3; row++) {
                     if (moves[col][row].equals(EMPTY)) {
@@ -296,7 +356,6 @@ public class GamePlay {
         } else {
             double bestScore = Integer.MAX_VALUE;
 
-            // Comment
             for (int col = 0; col < 3; col++) {
                 for (int row = 0; row < 3; row++) {
                     if (moves[col][row].equals(EMPTY)) {
@@ -311,6 +370,11 @@ public class GamePlay {
         }
     }
 
+    /**
+     * Checks each row to see if there is 3 of one letter in a row
+     *
+     * @return the row that was won on
+     */
     private static String checkRows() {
        for (int row = 0; row < 3; row++) {
            if (moves[0][row].equals(moves[1][row]) && (moves[1][row].equals(moves[2][row])) && !(moves[0][row].equals(EMPTY))) {
@@ -321,6 +385,11 @@ public class GamePlay {
         return null;
     }
 
+    /**
+     * Checks each column to see if there is 3 of one letter in a column
+     *
+     * @return the column that was won on
+     */
     private static String checkColumns() {
         for (int col = 0; col < 3; col++) {
             if (moves[col][0].equals(moves[col][1]) && (moves[col][1].equals(moves[col][2])) && !(moves[col][0].equals(EMPTY))) {
@@ -331,6 +400,14 @@ public class GamePlay {
         return null;
     }
 
+    /**
+     * Takes in the depth of the minimax function that was called
+     * and determines if either the AI or the player has won.
+     * This is where the point values are assigned to each outcome
+     *
+     * @param depth
+     * @return
+     */
     public static Double checkForWinMinimax(int depth) {
 
         String winner = null;
