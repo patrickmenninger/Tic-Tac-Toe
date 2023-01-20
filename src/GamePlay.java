@@ -43,7 +43,6 @@ public class GamePlay {
 
     //stores the best move for the row for the computer
     private static int bestMoveY = 0;
-    
 
 
     /**
@@ -149,7 +148,6 @@ public class GamePlay {
 
         updateBoard(x, y, playerLetter);
     }
-
 
 
     /**
@@ -380,12 +378,12 @@ public class GamePlay {
      * @return the row that was won on
      */
     private static String checkRows() {
-       for (int row = 0; row < 3; row++) {
-           if (moves[0][row].equals(moves[1][row]) && (moves[1][row].equals(moves[2][row])) && !(moves[0][row].equals(EMPTY))) {
-               return moves[0][row];
-           }
+        for (int row = 0; row < 3; row++) {
+            if (moves[0][row].equals(moves[1][row]) && (moves[1][row].equals(moves[2][row])) && !(moves[0][row].equals(EMPTY))) {
+                return moves[0][row];
+            }
 
-       }
+        }
         return null;
     }
 
@@ -430,7 +428,7 @@ public class GamePlay {
         }
 
         if (!(moves[1][1].equals(EMPTY)) && moves[0][0].equals(moves[1][1]) && (moves[1][1].equals(moves[2][2]))) {
-            winner =  moves[1][1];
+            winner = moves[1][1];
         }
         if (!(moves[1][1].equals(EMPTY)) && moves[0][2].equals(moves[1][1]) && (moves[1][1].equals(moves[2][0]))) {
             winner = moves[1][1];
@@ -438,9 +436,9 @@ public class GamePlay {
 
 
         if (winner != null && winner.equals("X")) {
-            winnerScore = (double)(1.0)/depth;
+            winnerScore = (double) (1.0) / depth;
         } else if (winner != null && winner.equals("O")) {
-            winnerScore = (double)(-1.0)/depth;
+            winnerScore = (double) (-1.0) / depth;
         } else if (winner != null && winner.equals("tie")) {
             winnerScore = 0.0;
         }
